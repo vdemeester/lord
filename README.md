@@ -21,6 +21,14 @@ $ lord generate dockerfile-in     # generate a set of Dockerfile.in …
 $ lord generate dockerfile -ot 'distgit/containers/{name}/Dockerfile.in'
 ```
 
+### `lord.yaml`
+
+- base image to use
+- "builder" / type image (go, js, …) with some customizaiton
+  we could call it "build recipe" as well
+- metadata (labels, …)
+- command/entrypoint/args
+
 ## External resources
 
 Some examples:
