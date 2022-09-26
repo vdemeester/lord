@@ -4,6 +4,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type generateOptions struct {
+	file string
+}
+
 func New() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "generate",

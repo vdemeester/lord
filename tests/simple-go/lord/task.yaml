@@ -32,7 +32,8 @@ spec:
         crane append -b $(params.image-reference) \
                      -t $(params.reference) \
                      -f <(cd /artifacts && tar -f - -c .)
-      ) -t $(params.reference)
+      ) --label foo=bar \
+        -t $(params.reference)
   volumes:
   - name: artifacts
     emptyDir: {}

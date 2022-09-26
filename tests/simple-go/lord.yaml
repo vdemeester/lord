@@ -5,7 +5,7 @@ config:
     test:
       type: go
     labels:
-    - foo: bar
+      foo: bar
     artifacts:
     - name: /${{ name }}
   tkn:
@@ -16,3 +16,6 @@ config:
         package: ./cmd/tkn
     artifacts:
     - name: /${{ name }}
+    envs:
+    - name: foo
+      value: bar
