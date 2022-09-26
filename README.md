@@ -5,7 +5,14 @@
 > the shadows lie.
 
 A `tool` to declaratively describe your container image (à-la
-[melange]) and generate `Dockerfile`, Tekton `task` and *wathever*
+[melange][]) and generate `Dockerfile`, Tekton `task` and *wathever*
 from it.
+
+
+
+Some examples:
+- [melange][]
+- [ocibuilder](https://ocibuilder.github.io/docs/examples/go-spec/)
+- …
 
 [melange]: https://github.com/chainguard-dev/melange
