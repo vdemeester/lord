@@ -1,0 +1,18 @@
+config:
+  lord:
+    build:
+      type: go
+    test:
+      type: go
+    labels:
+    - foo: bar
+    artifacts:
+    - name: /${{ name }}
+  tkn:
+    build:
+      type: go
+      with:
+        image: docker.io/library/golang:1.8
+        package: ./cmd/tkn
+    artifacts:
+    - name: /${{ name }}

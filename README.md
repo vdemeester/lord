@@ -29,11 +29,15 @@ $ lord generate dockerfile -ot 'distgit/containers/{name}/Dockerfile.in'
 - metadata (labels, …)
 - command/entrypoint/args
 
+Also, could it be something else than yaml ? Or we could "generate"
+the yamls.
+
 ## External resources
 
 Some examples:
 - [melange][]
 - [ocibuilder](https://ocibuilder.github.io/docs/examples/go-spec/)
+- [devfile](https://devfile.io/)
 - …
 
 [melange]: https://github.com/chainguard-dev/melange

@@ -1,0 +1,31 @@
+FROM openshift/golang-builder:rhel_8_golang_1.18 AS builder
+
+WORKDIR /go/src/github.com/tektoncd/pipeline
+COPY $REMOTE_SOURCE/app .
+COPY patches patches/
+RUN set -e; for f in patches/*.patch; do echo ${f}; [[ -f ${f} ]] || continue; git apply ${f}; done
+RUN CGO_ENABLED=0 \
+    go build -mod=vendor -tags disable_gcp -v -o /tmp/openshift-pipelines-controller \
+    ./cmd/controller
+RUN /bin/sh -c 'echo $CI_PIPELINE_UPSTREAM_COMMIT > /tmp/HEAD'
+
+FROM registry.redhat.io/ubi8/ubi-minimal:latest
+
+ENV CONTROLLER=/usr/local/bin/openshift-pipelines-controller \
+    KO_APP=/ko-app \
+    KO_DATA_PATH=/kodata
+
+COPY --from=builder /tmp/openshift-pipelines-controller ${CONTROLLER}
+COPY --from=builder /tmp/openshift-pipelines-controller ${KO_APP}/controller
+COPY --from=builder /tmp/HEAD ${KO_DATA_PATH}/HEAD
+
+LABEL \
+      com.redhat.component="openshift-pipelines-controller-rhel8-container" \
+      name="openshift-pipelines/pipelines-controller-rhel8" \
+      version="${CI_CONTAINER_VERSION}" \
+      summary="Red Hat OpenShift Pipelines Controller" \
+      maintainer="pipelines-extcomm@redhat.com" \
+      description="Red Hat OpenShift Pipelines Controller" \
+      io.k8s.display-name="Red Hat OpenShift Pipelines Controller"
+
+ENTRYPOINT ["/usr/local/bin/openshift-pipelines-controller"]

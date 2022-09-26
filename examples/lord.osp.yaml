@@ -1,0 +1,71 @@
+.common: &common
+  artifacts:
+  - name: /kodata/HEAD
+    source: ${{git.HEAD.sha}}
+  - name: /${{ name }}
+    source: ${{build.output}}
+  env:
+  - name: KO_APP
+    value: /ko-app
+  - name: KO_DATA_PATH
+    value: /kodata
+  labels:
+  - com.redhat.component: ${{ name }}-rhel8-container
+  - maintainer="pipelines-extcomm@redhat.com"
+
+.build-go-with: &build-go-with
+  tags: [ "disable_gcp" ]
+  output: ${{ name }}
+  
+.build-go: &build-go
+  type: go
+  with:
+    <<: *build-go-with
+
+config:
+  openshift-pipeline-controller:
+    <<: *common
+    build:
+      <<: *build-go
+      with:
+        <<: *build-go-with
+        package: ./cmd/controller
+    artifacts:
+    - name: /kodata/HEAD
+      source: ${{git.HEAD.sha}}
+    - name: /${{ name }}
+      source: ${{build.output}}
+    env:
+    - name: CONTROLLER
+      value: ${{ name }}
+    - name: KO_APP
+      value: /ko-app
+    - name: KO_DATA_PATH
+      value: /kodata
+    labels:
+    - com.redhat.component: ${{ name }}-rhel8-container
+    - name: openshift-pipelines/pipelines-controller-rhel8
+  openshift-pipeline-webhook:
+    build:
+      type: go
+      patches: ./patches
+      with:
+        tags: [ "disable_gcp" ]
+        package: ./cmd/webhook
+        output: openshift-pipelines-webhook
+    artifacts:
+    - name: /kodata/HEAD
+      source: ${{git.HEAD.sha}}
+    - name: /openshift-pipelines-webhook
+      source: ${{build.output}}
+    env:
+    - name: WEBHOOK
+      value: openshift-pipelines-webhook
+    - name: KO_APP
+      value: /ko-app
+    - name: KO_DATA_PATH
+      value: /kodata
+    labels:
+    - com.redhat.component: openshift-pipelines-webhook-rhel8-container
+    - name: openshift-pipelines/pipelines-webhook-rhel8
+  

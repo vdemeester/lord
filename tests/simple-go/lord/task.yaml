@@ -1,0 +1,39 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: build-lord
+spec:
+  params:
+  - name: reference
+  - name: base-image
+    default: cgr.dev/chainguard/static:latest
+  workspaces:
+  - name: source
+  stepTemplate:
+    workingDir: $(workspaces.source.path)
+    volumeMounts:
+    - mountPath: /artifacts
+      name: artifacts
+  steps:
+  - name: build
+    image: cgr.dev/chainguard/go:1.19
+    script: |
+      #!/usr/bin/env sh
+      set -e
+      go env
+      go version
+      go build -v -o /artifacts/lord .
+  - name: package
+    image: gcr.io/go-containerregistry/crane:debug
+    script: |
+      #!/busybox/sh
+      set -e
+      crane mutate $(
+        crane append -b $(params.image-reference) \
+                     -t $(params.reference) \
+                     -f <(cd /artifacts && tar -f - -c .)
+      ) -t $(params.reference)
+  volumes:
+  - name: artifacts
+    emptyDir: {}
+  

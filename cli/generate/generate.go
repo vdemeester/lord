@@ -12,8 +12,7 @@ func New() *cobra.Command {
 			return nil
 		},
 	}
-	// cmd.AddCommand(Tekton())
-	// cmd.AddCommand(Dockerfile())
 	cmd.AddCommand(DockerfileTemplate())
+	cmd.AddCommand(TektonTask())
 	return cmd
 }

@@ -1,0 +1,62 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: build-osp-controller-without-dockerfile
+spec:
+  params:
+  - name: image-reference
+  - name: controller-name
+  workspaces:
+  - name: source
+  stepTemplate:
+    workingDir: $(workspaces.source.path)
+    volumeMounts:
+    - mountPath: /output
+      name: output
+  steps:
+  - name: prepare
+    image: quay.io/openshift-pipeline/p12n:latest
+    script: |
+      git clone https://github.com/tektoncd/pipeline $(workspaces.source.path)
+      mkdir -p /output/kodata
+      git show-ref --hash HEAD > /output/kodata/HEAD
+  - name: build
+    image: docker.io/library/golang:1.18
+    env:
+    - name: CGO_ENABLED
+      value: "0"
+    script: |
+      #!/usr/bin/env bash
+      set -e
+      go env
+      go version
+      go build -mod=vendor -tags disable_gcp -v -o /output/$(params.controller-name) ./cmd/controller
+      ls -la /output
+  - name: package
+    image: gcr.io/go-containerregistry/crane:debug
+    script: |
+      #!/busybox/sh
+      set -e
+      crane mutate $(
+        crane append -b registry.redhat.io/ubi8/ubi-minimal:latest \
+                     -t $(params.image-reference) \
+                     -f <(cd /output && tar -f - -c .)
+        ) \
+        --entrypoint=/openshift-pipelines-controller \
+        --label com.redhat.component="openshift-pipelines-controller-rhel8-container" \
+        --label name="openshift-pipelines/pipelines-controller-rhel8" \
+        --env CONTROLLER=/$(params.controller-name) \
+        --env KO_APP=/ko-app \
+        --env KO_DATA_PATH=/kodata \
+        -t $(params.image-reference)
+      ls -l /output
+  volumes:
+  - name: output
+    emptyDir: {}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: my-sa
+secrets:
+  - name: regcred
