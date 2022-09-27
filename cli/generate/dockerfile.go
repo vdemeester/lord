@@ -20,7 +20,7 @@ RUN {{ .Command }}
 
 FROM {{ .BaseImage }}
 {{ range .Build.Steps -}}
-COPY --from=builder-{{ .Name }} /app/artifacts/{{ .Name }} /{{ .Name }}
+COPY --from=builder-{{ .Name }} /app/{{ .Name }} /{{ .Name }}
 {{- end }}
 {{ range $key, $value := .Labels -}}
 LABEL {{ $key }}={{ $value }}

@@ -25,7 +25,7 @@ func goBuild(name string, c config.Component) builders.Build {
 		Steps: []builders.Step{{
 			Name:    name,
 			Image:   goimage,
-			Command: fmt.Sprintf("go build -v -o artifacts/%s %s", name, gopackage),
+			Command: fmt.Sprintf("go build -v -o %s %s", name, gopackage),
 		}},
 	}
 	return b
