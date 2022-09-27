@@ -4,6 +4,9 @@ import (
 	"log"
 
 	"go.sbr.pm/lord/cli"
+
+	// Enable builders
+	_ "go.sbr.pm/lord/builders/golang"
 )
 
 func main() {

@@ -34,6 +34,7 @@ spec:
                      -f <(cd /artifacts && tar -f - -c .)
       ) --label foo=bar \
         -t $(params.reference)
+        --entrypoint=/lord
   volumes:
   - name: artifacts
     emptyDir: {}

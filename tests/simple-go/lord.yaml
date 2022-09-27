@@ -6,16 +6,12 @@ config:
       type: go
     labels:
       foo: bar
-    artifacts:
-    - name: /${{ name }}
   tkn:
     build:
       type: go
       with:
-        image: docker.io/library/golang:1.8
+        image: docker.io/library/golang:1.18
         package: ./cmd/tkn
-    artifacts:
-    - name: /${{ name }}
     envs:
     - name: foo
       value: bar
