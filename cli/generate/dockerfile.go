@@ -15,6 +15,7 @@ const (
 FROM {{ .Image }} AS builder-{{ .Name }}
 WORKDIR /app
 COPY . /app
+USER root
 RUN {{ .Command }}
 {{- end}}
 
