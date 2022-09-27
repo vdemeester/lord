@@ -97,7 +97,7 @@ func generateTektonTask(name string, c config.Component) (string, error) {
 			Script: fmt.Sprintf(`#!/usr/bin/env sh
 set -e
 %s
-mv artifacts/%s /artifacts`, step.Command, name),
+mv %s /artifacts`, step.Command, name),
 		}
 	}
 	var script strings.Builder
