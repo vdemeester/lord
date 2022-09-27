@@ -66,5 +66,5 @@ jobs:
     - name: generate and build a simple dockerfile
       run: |
         chmod +x ./lord
-        ./lord generate dockerfile-template -f ./tests/simple-go/lord.yaml lord | docker build -f - .
-        ./lord generate dockerfile-template -f ./tests/simple-go/lord.yaml tkn | docker build -f - https://github.com/tektoncd/cli.git#main
+        ./lord generate dockerfile -f ./tests/simple-go/lord.yaml lord | docker build -f - .
+        ./lord generate dockerfile -f ./tests/simple-go/lord.yaml tkn | docker build -f - https://github.com/tektoncd/cli.git#main

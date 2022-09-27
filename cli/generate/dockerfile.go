@@ -35,7 +35,7 @@ ENTRYPOINT ["/{{ .Name }}"]`
 func DockerfileTemplate() *cobra.Command {
 	opts := &generateOptions{}
 	cmd := &cobra.Command{
-		Use:   "dockerfile-template",
+		Use:   "dockerfile",
 		Short: "Generate a dockerfile from lord",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			components := args
