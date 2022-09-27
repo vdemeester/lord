@@ -5,7 +5,7 @@
 > the shadows lie.
 
 A `tool` to declaratively describe your container image (à-la
-[melange][]) and generate `Dockerfile`, Tekton `task` and *wathever*
+[melange][]) and generate `Dockerfile`, Tekton `task` and *whatever*
 from it.
 
 ## Usage
