@@ -31,3 +31,40 @@ jobs:
       run: go build -v ./...
     - name: go test
       run: go test -v ./...
+    - name: build lord
+      run: go build -o lord -v .
+    - name: Upload lord binary
+      uses: actions/upload-artifact@v3
+      with:
+        name: lord-bin
+        path: lord
+
+  test-tekton:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/download-artifact@v3
+      with:
+        name: lord-bin
+    - uses: chainguard-dev/actions/setup-kind@main
+      with:
+        k8s-version: v1.24.x
+    - name: generate and start a simple task
+      run: |
+        chmod +x ./lord
+        ./lord generate tekton-task -f ./tests/simple-go/lord.yaml lord
+        ./lord generate tekton-task -f ./tests/simple-go/lord.yaml tkn
+  test-docker:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/download-artifact@v3
+      with:
+        name: lord-bin
+    - name: generate and build a simple dockerfile
+      run: |
+        chmod +x ./lord
+        ./lord generate dockerfile-template -f ./tests/simple-go/lord.yaml lord | docker build -f - .
+        ./lord generate dockerfile-template -f ./tests/simple-go/lord.yaml tkn | docker build -f - https://github.com/tektoncd/cli
