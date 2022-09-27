@@ -1,6 +1,6 @@
 metadata:
   creationTimestamp: null
-  name: package-lord
+  name: package-tkn
 spec:
   params:
   - name: reference
@@ -14,14 +14,14 @@ spec:
       name: artifacts
     workingDir: $(workspaces.source.path)
   steps:
-  - image: cgr.dev/chainguard/go:1.19
-    name: lord
+  - image: docker.io/library/golang:1.18
+    name: tkn
     resources: {}
     script: |-
       #!/usr/bin/env sh
       set -e
-      go build -v -o lord .
-      mv lord /artifacts
+      go build -v -o tkn ./cmd/tkn
+      mv tkn /artifacts
   - image: gcr.io/go-containerregistry/crane:debug
     name: package
     resources: {}
@@ -32,7 +32,7 @@ spec:
         crane append -b $(params.base-image) \
                      -t $(params.reference) \
                      -f <(cd /artifacts && tar -f - -c .)
-        ) -t $(params.reference) --entrypoint=/lord --label foo=bar
+        ) -t $(params.reference) --entrypoint=/tkn --env foo=bar
   volumes:
   - emptyDir: {}
     name: artifacts
