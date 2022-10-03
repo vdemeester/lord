@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/spf13/cobra v1.5.0
-	github.com/tektoncd/pipeline v0.40.1
+	github.com/tektoncd/pipeline v0.40.2
 	k8s.io/api v0.23.9
 	k8s.io/apimachinery v0.23.9
 	sigs.k8s.io/release-utils v0.7.3
