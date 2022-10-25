@@ -3,7 +3,7 @@ module go.sbr.pm/lord
 go 1.18
 
 require (
-	github.com/spf13/cobra v1.6.0
+	github.com/spf13/cobra v1.6.1
 	github.com/tektoncd/pipeline v0.40.2
 	k8s.io/api v0.23.9
 	k8s.io/apimachinery v0.23.9
