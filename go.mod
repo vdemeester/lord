@@ -6,7 +6,7 @@ require (
 	github.com/spf13/cobra v1.6.1
 	github.com/tektoncd/pipeline v0.41.0
 	k8s.io/api v0.25.3
-	k8s.io/apimachinery v0.25.3
+	k8s.io/apimachinery v0.25.4
 	sigs.k8s.io/release-utils v0.7.3
 	sigs.k8s.io/yaml v1.3.0
 )
