@@ -6,7 +6,7 @@ require (
 	github.com/spf13/cobra v1.6.1
 	github.com/tektoncd/pipeline v0.42.0
 	k8s.io/api v0.25.4
-	k8s.io/apimachinery v0.25.4
+	k8s.io/apimachinery v0.26.0
 	sigs.k8s.io/release-utils v0.7.3
 	sigs.k8s.io/yaml v1.3.0
 )
@@ -58,12 +58,12 @@ require (
 	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
 	go.uber.org/zap v1.23.0 // indirect
-	golang.org/x/net v0.2.0 // indirect
+	golang.org/x/net v0.3.1-0.20221206200815-1e63c2f08a10 // indirect
 	golang.org/x/oauth2 v0.2.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
-	golang.org/x/sys v0.2.0 // indirect
-	golang.org/x/term v0.2.0 // indirect
-	golang.org/x/text v0.4.0 // indirect
+	golang.org/x/sys v0.3.0 // indirect
+	golang.org/x/term v0.3.0 // indirect
+	golang.org/x/text v0.5.0 // indirect
 	golang.org/x/time v0.1.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.2.0 // indirect
 	google.golang.org/api v0.100.0 // indirect
@@ -77,7 +77,7 @@ require (
 	k8s.io/client-go v0.25.4 // indirect
 	k8s.io/klog/v2 v2.80.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20221012153701-172d655c2280 // indirect
-	k8s.io/utils v0.0.0-20221012122500-cfd413dd9e85 // indirect
+	k8s.io/utils v0.0.0-20221107191617-1a15be271d1d // indirect
 	knative.dev/pkg v0.0.0-20221011175852-714b7630a836 // indirect
 	sigs.k8s.io/json v0.0.0-20220713155537-f223a00ba0e2 // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.2.3 // indirect
